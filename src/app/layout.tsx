@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
+import ClientProviders from "@/components/custom/common/ClientProviders";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,7 +41,7 @@ export default function RootLayout({
         className={`${inter.variable} ${sora.variable} antialiased max-w-screen`}
       >
         {children}
-        <Toaster position="top-right" richColors />
+        <ClientProviders />
       </body>
     </html>
   );
