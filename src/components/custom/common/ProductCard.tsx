@@ -41,7 +41,7 @@ const ProductCard = ({
       transition={{ type: "spring", stiffness: 200 }}
       className="group rounded-2xl border bg-background p-3 sm:p-4 h-full"
     >
-      <div className="flex flex-col h-full">
+      <Link href={link} className="flex flex-col h-full">
         {/* Image - Top par hi rahega */}
         <div className="relative mb-4 aspect-3/4 overflow-hidden rounded-xl shrink-0">
           <Image
@@ -85,7 +85,7 @@ const ProductCard = ({
             <Link href={link}>Buy Now</Link>
           </Button>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 };
