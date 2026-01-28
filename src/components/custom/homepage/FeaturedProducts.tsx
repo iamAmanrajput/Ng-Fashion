@@ -1,113 +1,106 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-
-import heroimg1 from "../../../../public/heroimg1.webp";
-import heroimg2 from "../../../../public/heroimg2.webp";
-import heroimg3 from "../../../../public/heroimg3.webp";
-import heroimg4 from "../../../../public/heroimg4.webp";
-import heroimg6 from "../../../../public/heroimg6.webp";
+import { useEffect, useState, useCallback } from "react";
 import ProductCard from "../common/ProductCard";
+import axios from "axios";
+import { toast } from "sonner";
+import { PackageX } from "lucide-react";
+import Loader from "../common/Loader";
 
-type Product = {
-  id: number;
+// 1. Precise Interface
+interface Product {
+  _id: string;
   title: string;
   link: string;
-  image: any;
+  image: { url: string };
   sizes: string[];
-};
+  color: string;
+}
 
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Full Sleeve Pink Shrug Women Jacket",
-    link: "https://www.flipkart.com/ng-store-women-shrug/p/itm036067aef3717?pid=RUGGSEF4K5ZTM7D4&lid=LSTRUGGSEF4K5ZTM7D4NEFFSP&marketplace=FLIPKART&sattr[]=color&sattr[]=size&st=color",
-    image: heroimg1,
-    sizes: ["S", "M", "L", "XL", " XXL", "3XL"],
-  },
-  {
-    id: 2,
-    title: "Women Nighty (Dark Blue)",
-    link: "https://www.flipkart.com/ng-store-women-nighty/p/itm50f07acbf24bd?pid=NDNG7C7KAZYGSPMC&lid=LSTNDNG7C7KAZYGSPMCXSHT9D&marketplace=FLIPKART&sattr[]=color&st=color",
-    image: heroimg6,
-    sizes: ["FREE", "L", "XL", "XXL"],
-  },
-  {
-    id: 3,
-    title: "Luxury Designer Wear",
-    link: "/products/luxury-designer-wear",
-    image: heroimg3,
-    sizes: ["S", "M", "L"],
-  },
-  {
-    id: 4,
-    title: "Full Sleeve Blue Shrug Women Jacket",
-    link: "https://www.flipkart.com/ng-store-women-shrug/p/itm4996ce36e7b2e?pid=RUGGGKVU638GRHXA&lid=LSTRUGGGKVU638GRHXAELKXBA&marketplace=FLIPKART&sattr[]=color&sattr[]=size&st=color",
-    image: heroimg4,
-    sizes: ["S", "M", "L", "XL", " XXL", "3XL"],
-  },
-];
-
-/* Animation Variants */
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15 },
+    transition: { staggerChildren: 0.1 }, // Thoda fast stagger for better feel
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
 const FeaturedProducts = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true); // Start with loading true
+
+  // 2. Wrap in useCallback if you ever need to move this outside useEffect
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get("/api/products/featured-products");
+      setProducts(data?.data || []);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      toast.error("Failed to fetch featured products.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   return (
-    <section className="mx-auto max-w-7xl py-10">
-      {/* Heading */}
+    <section className="mx-auto max-w-7xl px-4 py-10">
+      {" "}
+      {/* Added px-4 for mobile spacing */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
         className="mb-12 text-center"
       >
-        <h2 className="text-3xl font-semibold tracking-tight">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Featured Products
         </h2>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-4 text-muted-foreground">
           Handpicked styles crafted for modern fashion
         </p>
       </motion.div>
-
-      {/* Products Grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
-        className="
-          grid grid-cols-1 gap-4
-          sm:grid-cols-2 sm:gap-6
-          md:grid-cols-3
-          lg:grid-cols-4 lg:gap-6
-        "
+        viewport={{ once: true, margin: "-100px" }} // Triggers slightly before reaching view
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            title={product.title}
-            sizes={product.sizes}
-            image={product.image}
-            link={product.link}
-            color="navy blue"
-          />
-        ))}
+        {loading ? (
+          <div className="col-span-full flex h-40 items-center justify-center">
+            <Loader width={9} height={40} />
+          </div>
+        ) : products.length === 0 ? (
+          <div className="col-span-full py-20">
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <PackageX className="h-10 w-10 opacity-20" />
+              <p>No products found in this category.</p>
+            </div>
+          </div>
+        ) : (
+          products.map((product) => (
+            <motion.div key={product._id} variants={itemVariants}>
+              <ProductCard
+                title={product.title}
+                sizes={product.sizes}
+                image={product.image?.url}
+                link={product.link}
+                color={product.color}
+              />
+            </motion.div>
+          ))
+        )}
       </motion.div>
     </section>
   );

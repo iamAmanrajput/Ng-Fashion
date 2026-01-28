@@ -11,11 +11,11 @@ import "swiper/css/navigation";
 
 const slides = [
   {
-    src: "https://images.unsplash.com/photo-1618232468971-54188a224417?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e",
     alt: "Fashion model wearing modern outfit",
   },
   {
-    src: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c",
+    src: "https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f",
     alt: "Luxury fashion clothing",
   },
   {

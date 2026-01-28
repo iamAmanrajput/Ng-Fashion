@@ -71,10 +71,9 @@ const About = () => {
           >
             <h2 className="text-3xl font-semibold tracking-tight">Our Story</h2>
             <p className="mt-5 leading-relaxed text-muted-foreground">
-              NG Fashion was born from a passion for creating clothing that
-              feels as good as it looks. We believe fashion should be
-              expressive, effortless, and timeless — not driven by fleeting
-              trends.
+              NG Store was born from a passion for creating clothing that feels
+              as good as it looks. We believe fashion should be expressive,
+              effortless, and timeless — not driven by fleeting trends.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Every piece reflects our commitment to quality, comfort, and

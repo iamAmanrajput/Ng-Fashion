@@ -22,8 +22,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/custom/common/Loader";
 
 const ProductsClient = () => {
   const router = useRouter();
@@ -143,8 +143,8 @@ const ProductsClient = () => {
       </div>
 
       {isLoading ? (
-        <div className="flex h-64 items-center justify-center">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <div className="flex justify-center my-8 col-span-full">
+          <Loader width={9} height={40} />
         </div>
       ) : (
         <>
@@ -162,9 +162,10 @@ const ProductsClient = () => {
                   exit={{ opacity: 0 }}
                 >
                   <ProductCard
+                    key={product._id}
                     title={product.title}
                     image={product.image.url}
-                    link={`/products/${product._id}`}
+                    link={product.link}
                     sizes={product.sizes}
                     color={product.color}
                   />
