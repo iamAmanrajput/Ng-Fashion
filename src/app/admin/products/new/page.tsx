@@ -4,6 +4,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { PRODUCT_TYPES } from "@/utils/product";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -221,8 +222,11 @@ export default function NewProduct() {
                       <SelectValue placeholder="Select Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="shoes">Shoes</SelectItem>
-                      <SelectItem value="tshirt">T-Shirt</SelectItem>
+                      {PRODUCT_TYPES.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type.charAt(0).toUpperCase() + type.slice(1)}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}
