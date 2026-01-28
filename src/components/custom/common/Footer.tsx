@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Instagram, Facebook, Twitter, MapPin, Mail } from "lucide-react";
+import { EMAIL } from "@/utils/helper";
 
 const Footer = () => {
   return (
@@ -69,7 +70,7 @@ const Footer = () => {
               </p>
               <p className="flex items-start gap-2">
                 <Mail size={18} />
-                ngfashion9554@gmail.com
+                {EMAIL}
               </p>
             </div>
           </div>

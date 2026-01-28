@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, ContactSchemaType } from "@/schema/contact.schema";
 import axios from "axios";
+import { EMAIL } from "@/utils/helper";
 
 const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_URL ?? "";
 
@@ -105,10 +106,10 @@ const Contact = () => {
                 <div className="flex items-start gap-4 hover:text-blue-600 transition duration-200">
                   <Mail className="mt-1 h-5 w-5" />
                   <Link
-                    href="mailto:ngfashion9554@gmail.com"
+                    href={`mailto:${EMAIL}`}
                     className="text-muted-foreground hover:text-blue-600 transition duration-200"
                   >
-                    ngfashion9554@gmail.com
+                    {EMAIL}
                   </Link>
                 </div>
 
